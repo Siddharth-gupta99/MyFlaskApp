@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% block body %}
+	<h1>Dashboard <small>Welcome {{ session.username }}</small> </h1>
+	<a class="btn btn-success" href="/add_article"> Add Article </a>
+	<hr>
+	<table class="table table-striped">
+		<tr>
+			<th>Title</th>
+			<th>Author</th>
+			<th>Date</th>
+			<th>Edit</th>
+			<th>Delete</th>
+		</tr>
+		{% for article in articles %}
+		<tr>
+			<td>{{ article.title}}</td>
+			<td>{{ article.author }}</td>
+			<td>{{ article.create_date }}</td>
+			<td><a href="edit_article/{{ article.id }}" class="btn btn-primary pull-right">Edit</a></td> 
+			<td>
+
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+			Delete</button>
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  				<div class="modal-dialog" role="document">
+ 	   				<div class="modal-content">
+      					<div class="modal-header">
+        					<h5 class="modal-title" id="exampleModalLabel">Delete?</h5>
+        					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          						<span aria-hidden="true">&times;</span>
+        					</button>
+      					</div>
+      					<div class="modal-footer">
+        					<form action="{{url_for('delete_article', id=article.id)}}" method="post">
+        						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            					<input type="hidden" name="_method" value="DELETE">
+            					<input type="submit" value="Delete" class="btn btn-danger">
+            				</form>
+      					</div>
+    				</div>
+  				</div>
+			</div>
+			</td>
+		</tr> 
+		{% endfor %}
+{% endblock %}
